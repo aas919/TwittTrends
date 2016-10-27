@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        width: 100%;
+        height: 100%;
+        background-color: grey;
+      }
+    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  </head>
+  <body>
+  <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+    	<a class="navbar-brand" href="#">Twitt Map</a>
+    </div>
+	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	<ul class="nav navbar-nav">
+    <li>
+    	<form class="navbar-form navbar-left" role="search" id="keywordsForm" action="">
+      		<div class="form-group">
+        		<div class="dropdown">
+      				<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        				Select Keyword
+        				<span class="caret"></span>
+      				</button>
+      				<input type="hidden" name="keyword" id="keyword" />
+      				<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+        				<li onclick="$('#keyword').val('trump');$('#keywordsForm').submit()"><a href="#">Trump</a></li>
+        				<li onclick="$('#keyword').val('hillary');$('#keywordsForm').submit()"><a href="#">Hillary</a></li>
+       					<li onclick="$('#keyword').val('clinton');$('#keywordsForm').submit()"><a href="#">Clinton</a></li>
+        				<li onclick="$('#keyword').val('election');$('#keywordsForm').submit()"><a href="#">Election</a></li>
+        				<li onclick="$('#keyword').val('new');$('#keywordsForm').submit()"><a href="#">New</a></li>
+        				<li onclick="$('#keyword').val('york');$('#keywordsForm').submit()"><a href="#">York</a></li>
+        				<li onclick="$('#keyword').val('united');$('#keywordsForm').submit()"><a href="#">United</a></li>
+        				<li onclick="$('#keyword').val('states');$('#keywordsForm').submit()"><a href="#">States</a></li>
+        				<li onclick="$('#keyword').val('and');$('#keywordsForm').submit()"><a href="#">And</a></li>
+        				<li onclick="$('#keyword').val('from');$('#keywordsForm').submit()"><a href="#">From</a></li>
+      				</ul>
+    			 </div>
+      		</div>
+    	</form>
+      </li>
+      <li>
+      	<div class="alert alert-info" role="alert">
+      		<strong>
+      			Found {{ hits }} hits
+      		</strong>
+      	</div>
+      </li>
+	</div>
+  	</div><!-- /.container-fluid -->
+	</nav>
+    <div id="map"></div>
+    <script>
+
+      function initMap() {
+        var uluru = {{ data }};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: {lat: 40.7128 ,lng: -74.0059}
+        });
+        for(var i=0;i<uluru.length;i++)
+        	var marker = new google.maps.Marker({
+          		position: uluru[i],
+          		map: map
+        	});
+      }
+
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDe8zGf9ncvsDxND35AGbq7HTxcZVfxdmo&callback=initMap">
+    </script>   
+  </body>
+</html>
