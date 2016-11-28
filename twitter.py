@@ -1,10 +1,14 @@
 import json
-
+import certifi
+import boto3
 from tweepy import Stream, OAuthHandler
 from tweepy.streaming import StreamListener
 from elasticsearch import Elasticsearch
 
-es = Elasticsearch(['https://search-twittmap-pehb35byikz6e5x5vompvtdjbm.us-west-2.es.amazonaws.com'])
+sqs = boto3.resource('sqs')
+#queue = sqs.create_queue(QueueName='twittmap', Attributes={'DelaySeconds': '5'})
+#print(queue.url)
+#print(queue.attributes.get('DelaySeconds'))
 
 ACCESS_TOKEN = '784933573031624705-j29j5R9k0qTqrbtpbATPjbiwVv8gjII'
 ACCESS_SECRET = 'GnurE7EOP7mKE93RfApDj5gqSGEZ0NDfnZu9zVyQXytZf'
@@ -25,11 +29,9 @@ class PublicStreamListner(StreamListener):
                         'lat' : tweet["coordinates"]['coordinates'][1],
                         'text' : tweet["text"]
                         }
-                    res = es.index(index="twitter", doc_type='tweets', body=doc)
-                    #with open("twitter_data.json",'a') as f:
-                    #    f.write("\n" + '{ "index" : { "_index" : "twitter", "_type" : "tweets" } }')
-                    #    f.write("\n" + '{"id": \"' + str(tweet["id"]) + '\","text": \"' + tweet["created_at"] + '\", "text": \"' + tweet["text"] + '\", "lon": \"' + str(tweet["coordinates"]['coordinates'][0]) + '\", "lat": \"' + str(tweet["coordinates"]['coordinates'][0]) + '\"}')
-                    print("Added to elasticsearch" + doc)
+                    queue = sqs.get_queue_by_name(QueueName='twittmap')
+                    response = queue.send_message(MessageBody=json.dumps(doc))
+                    print(response.get('MessageId'))
         except:
             pass
 

@@ -18,6 +18,6 @@ from django.contrib import admin
 from main import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^marker/', views.render_markermap)
+    url(r'^$', views.render_markermap),
+    url(r'^subscribtion_endpoint', views.subscribtion_endpoint)
 ]

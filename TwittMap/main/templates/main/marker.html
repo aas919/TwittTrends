@@ -56,6 +56,13 @@
       		</strong>
       	</div>
       </li>
+      <li>
+      	<div class="alert alert-info" role="alert">
+      		<strong>
+      			{{ tweets_count }} Tweets indexed
+      		</strong>
+      	</div>
+      </li>
 	</div>
   	</div><!-- /.container-fluid -->
 	</nav>
@@ -64,6 +71,7 @@
 
       function initMap() {
         var uluru = {{ data }};
+        var sentiments = ['Positive']
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 4,
           center: {lat: 40.7128 ,lng: -74.0059}
@@ -71,6 +79,7 @@
         for(var i=0;i<uluru.length;i++)
         	var marker = new google.maps.Marker({
           		position: uluru[i],
+          		label: sentiments[0].charAt(0),
           		map: map
         	});
       }
